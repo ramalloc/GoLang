@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 	fmt.Println("Maps in Go Lang...")
-	// --> We can use make to create maps as well
+	// --> We can use make to create maps as well, It is key value pair data structure
 
 	// ---> MAPS
 	languages := make(map[string]string)
@@ -31,5 +31,20 @@ func main() {
 	// For key RB the value is : Ruby
 	// For key GO the value is : GoLang
 	// For key JS the value is : Javascript
+
+
+	// Practice
+	prizes := make(map[int]string)
+
+	prizes[0] = "Chal Nikal"
+	prizes[1] = "First"
+	prizes[2] = "Second"
+	prizes[3] = "Third"
+
+	fmt.Println("Printing Map - ", prizes)
+	fmt.Println("Looping Map - ")
+	for key, value := range prizes{
+		fmt.Printf("For %v number the prize is :- %v\n", key, value)
+	}
 
 }

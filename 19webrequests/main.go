@@ -16,7 +16,8 @@ func main() {
 
 	fmt.Printf("Type of Response :- %T\n", response)
 	// Type of Response :- *http.Response
-	// --> Above we are not getting copy of response we are getting actual response as pointer or reference
+	// --> Above we are not getting copy of response we are getting actual response as pointer or reference therefore type
+	// is *http.Response (a pointer)
 	defer response.Body.Close()
 
 	// Reading response

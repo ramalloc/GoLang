@@ -24,6 +24,16 @@ func main() {
 	fmt.Printf("Name is %v and Email is %v\n", roshan.Name, roshan.Email)
 	fmt.Printf("Name is %v and Email is %v\n", ram.Name, ram.Email)
 	// Name is Roshan and Email is roshangupta1887@gmail.com
+
+
+	// practice
+	aim := Science{[3]string{"Physics", "Chemistry", "Maths"}, 400, true, false}
+	fmt.Println("Aim :- ", aim)
+	fmt.Printf("Aim :- %+v\n", aim)
+
+	for key, value := range aim.Subjects{
+		fmt.Printf("For Subjects - %+v strudent got %+v marks\n", key, value)
+	}
 }
 
 type User struct {
@@ -31,4 +41,11 @@ type User struct {
 	Email  string
 	Status bool
 	Age    int
+}
+
+type Science struct {
+	Subjects [3]string
+	Marks int
+	Pass bool
+	Fail bool
 }

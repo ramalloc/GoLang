@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+
 func main()  {
 	welcome := "Taking Input from User..."
 	fmt.Println(welcome)
@@ -21,7 +22,20 @@ func main()  {
 	message := "Enter Value for ok or err..."
 	fmt.Println(message)
 	ok, err := reader.ReadString('\n')
+
 	fmt.Println("Ok rating  - ", ok)
 	fmt.Println("Error in rating  - ", err)
+	// Ok rating  -  6
+	// Error in rating  -  <nil>
+
+
+	// Practice
+	getter := bufio.NewReader(os.Stdin)
+
+	fmt.Printf("Enter Name : - ")
+	give, _ := getter.ReadString('\n')
+
+	fmt.Printf("Welcome %s", give)
+
 	
 }

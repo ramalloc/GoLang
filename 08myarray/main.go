@@ -15,4 +15,15 @@ func main() {
 
 	var vegList = [3]string{"Potato", "Ginger", "Bootleguard"}
 	fmt.Println("Veg List :- ", vegList)
+
+
+	// Practice
+	var nameList[3] string
+	nameList[0] = "Roshan"
+	nameList[1] = "Kumar"
+	nameList[2] = "Gupta"
+	fmt.Println("Name List - ", nameList)
+
+	var fullName = [3]string{"Roshan", "Kumar", "Gupta"}
+	fmt.Println("Full Name - ", fullName)
 }

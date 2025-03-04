@@ -1,12 +1,15 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"os"
+	"strconv"
 	"strings"
 )
 
@@ -23,14 +26,14 @@ func main() {
 
 func ConnectToServer() {
 	res, err := http.Get(myUrl)
-	checkNillErr(err)
+	checkNillErr(err, "Get Method Error while connecting !")
 	defer res.Body.Close()
 
 	fmt.Println("Status Code - ", res.StatusCode)
 	fmt.Println("Content Length Code - ", res.ContentLength)
 
 	dataBytes, byteErr := io.ReadAll(res.Body)
-	checkNillErr(byteErr)
+	checkNillErr(byteErr, "Reading Byte Error in connection !")
 
 	fmt.Println("Get Mehtod Body - ", string(dataBytes))
 
@@ -44,14 +47,14 @@ func PerformGetRequest() {
 	}
 
 	res, err := http.Get(getFullUrl.String())
-	checkNillErr(err)
+	checkNillErr(err, "Get Method Error !")
 	defer res.Body.Close()
 
 	fmt.Println("Status Code - ", res.StatusCode)
 	fmt.Println("Content Length Code - ", res.ContentLength)
 
 	dataBytes, byteErr := io.ReadAll(res.Body)
-	checkNillErr(byteErr)
+	checkNillErr(byteErr, "Reading Byte error in Get !")
 
 	fmt.Println("Get Mehtod Body - ", string(dataBytes))
 
@@ -67,23 +70,29 @@ func PerformPostRequest() {
 	data := make(map[string]interface{})
 	// We use interface{} is a special type known as the empty interface, and it is used to represent any type of value
 
-	var name string
-	fmt.Print("Enter name: ")
-	fmt.Scan(&name)
-	data["name"] = name
+	reader := bufio.NewReader(os.Stdin)
 
-	var age int
+	fmt.Print("Enter name: ")
+	name, _ := reader.ReadString('\n')
+	data["name"] = strings.TrimSpace(name)
+
 	fmt.Print("Enter age: ")
-	fmt.Scan(&age)
-	data["age"] = age
+	age, _ := reader.ReadString('\n')
+	ageInt, err := strconv.Atoi(strings.TrimSpace(age))
+	checkNillErr(err, "string conversion error to int !")
+	data["age"] = ageInt
 
 	// Convert the data map to JSON
 	postData, marshalErr := json.Marshal(data)
-	checkNillErr(marshalErr)
+	checkNillErr(marshalErr, "Json consversion error !")
 	fmt.Println("Post Data - ", postData)
 
+	// Converting Data bytes of json into json string
+	fmt.Println("Post Data conversion thorugh byte.NewBuffer byte Buffer - ", bytes.NewBuffer(postData))
+	fmt.Println("Post Data thorugh string - ", string(postData))
+
 	res, err := http.Post(postUrl, "application/json", bytes.NewBuffer(postData))
-	checkNillErr(err)
+	checkNillErr(err, "Post Method Error")
 
 	defer res.Body.Close()
 
@@ -91,7 +100,7 @@ func PerformPostRequest() {
 	fmt.Println("Content Length Code - ", res.ContentLength)
 
 	dataBytes, byteErr := io.ReadAll(res.Body)
-	checkNillErr(byteErr)
+	checkNillErr(byteErr, "Error in Post Databyte !")
 
 	fmt.Println("Post Mehtod Body Reponse is - ", string(dataBytes))
 
@@ -112,7 +121,7 @@ func PerformPostRequestUsingString() {
 	`)
 
 	res, err := http.Post(postUrl, "application/json", requestBody)
-	checkNillErr(err)
+	checkNillErr(err, "Error in Post Method!")
 
 	defer res.Body.Close()
 
@@ -120,7 +129,7 @@ func PerformPostRequestUsingString() {
 	fmt.Println("Content Length Code - ", res.ContentLength)
 
 	dataBytes, byteErr := io.ReadAll(res.Body)
-	checkNillErr(byteErr)
+	checkNillErr(byteErr, "Error in Reading Byte")
 
 	if res.StatusCode != 200 {
 		fmt.Println("Error - ", string(dataBytes))
@@ -130,22 +139,34 @@ func PerformPostRequestUsingString() {
 
 }
 
-func PostFormData () {
+func PostFormData() {
 	var builder strings.Builder
 	builder.WriteString(myUrl)
 	builder.WriteString("postform")
 
 	postFormUrl := builder.String()
-	
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Printf("Enter First Name :- ")
+	firstName, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Last Name :- ")
+	lastName, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Age Name :- ")
+	age, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Interest Name :- ")
+	interest, _ := reader.ReadString('\n')
+
+
+
 	// URL Values or RawQuery
 	data := url.Values{}
-	data.Add("first_name", "Roshan")
-	data.Add("last_name", "Kumar")
-	data.Add("age", "23")
-	data.Add("interest", "GO")
+	data.Add("first_name", strings.TrimSpace(firstName))
+	data.Add("last_name", strings.TrimSpace(lastName))
+	data.Add("age", strings.TrimSpace(age))
+	data.Add("interest", strings.TrimSpace(interest))
 
 	res, err := http.PostForm(postFormUrl, data)
-	checkNillErr(err)
+	checkNillErr(err, "Error while post Form")
 
 	defer res.Body.Close()
 
@@ -160,8 +181,9 @@ func PostFormData () {
 
 }
 
-func checkNillErr(err error) {
+func checkNillErr(err error, errFrom string) {
 	if err != nil {
+		println(errFrom)
 		panic(err)
 	}
 }

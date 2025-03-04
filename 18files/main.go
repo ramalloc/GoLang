@@ -27,7 +27,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("File created successfully with length ....", legth)
+		fmt.Println("File created successfully with length :- ", legth)
 	}
 
 	readfile("./myTextFile.txt")
@@ -45,6 +45,7 @@ func readfile(fileName string) {
 
 	checkNillErr(err)
 
+	fmt.Println("Text File in Bytes - ", dataBytes)
 	fmt.Println("The my text file is  :- ")
 	// To convert these bytes into string/text we can do like below using string mathod
 	fmt.Println(string(dataBytes))

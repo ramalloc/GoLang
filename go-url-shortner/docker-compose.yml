@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  api: 
+    build: api
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_PORT=3000
+    depends_on:
+      - db
+  db: 
+    build: db
+    ports:
+      - "6379:6379"
+    volumes:
+      - .data:/data
+    # Redis stores data in data/ because of volumes: - .data:/data.
+    # This ensures Redis data isn’t lost when the container stops.

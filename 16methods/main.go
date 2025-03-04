@@ -24,6 +24,7 @@ func main() {
 	// Original Email -  roshangupta1887@gmail.com
 
 	// The original Values did not affect because only copies of objects are passing and an instance is creating in funciton.
+	// THe functions are not changing the actual value as in functions there is also an instance of struct object.
 
 
 }
@@ -35,7 +36,7 @@ type User struct{
 	Age int
 }
 
-// THis is the way of declaring function/method of struct we cannot define it in main we have to define it explicitly
+// THis is the way of declaring function/method of struct we cannot define it in main, we have to define it explicitly
 func (u User) GetStatus(){
 	if u.Status {
 		fmt.Println("The User is Active...")
